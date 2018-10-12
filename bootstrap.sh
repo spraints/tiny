@@ -9,7 +9,7 @@ set -o nounset
 install_missing() {
   local missing=
   for pkg; do
-    if dpkg -l "$pkg" | grep ^ii >&/dev/null; then
+    if ! dpkg -l "$pkg" | grep ^ii >&/dev/null; then
       missing="$missing $pkg"
     fi
   done
