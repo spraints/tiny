@@ -40,14 +40,18 @@ install_missing \
   libnss-mdns \
   docker-ce
 
-printf '===> Install docker-compose\n'
-docker_compose_url="https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)"
-curl -L "$docker_compose_url" -o /tmp/docker-compose
-chmod +x /tmp/docker-compose
-if /tmp/docker-compose --version | grep ^docker-compose >&/dev/null; then
-  mv /tmp/docker-compose /usr/local/bin/
-else
-  rm -f /tmp/docker-compose
-  echo Error downloading docker-compose
-  exit 1
+if ! docker-compose --version | grep ^docker-compose >&/dev/null; then
+  printf '===> Install docker-compose\n'
+  docker_compose_url="https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)"
+  curl -L "$docker_compose_url" -o /tmp/docker-compose
+  chmod +x /tmp/docker-compose
+  if /tmp/docker-compose --version | grep ^docker-compose >&/dev/null; then
+    mv /tmp/docker-compose /usr/local/bin/
+  else
+    rm -f /tmp/docker-compose
+    echo Error downloading docker-compose
+    exit 1
+  fi
 fi
+
+echo '===> OK!'
