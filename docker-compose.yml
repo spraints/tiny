@@ -1,10 +1,16 @@
 version: '3'
 
+volumes:
+  prometheus_data: {}
+
 services:
   prometheus:
     image: prom/prometheus:v2.4.3
     ports:
       - 0.0.0.0:4441:9090
+    volumes:
+      - ./config/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
 
   grafana:
     image: grafana/grafana:5.3.0
