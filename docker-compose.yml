@@ -4,4 +4,9 @@ services:
   prometheus:
     image: prom/prometheus:v2.4.3
     ports:
-      - 0.0.0.0:9090:9090
+      - 0.0.0.0:4441:9090
+
+  grafana:
+    image: grafana/grafana:5.3.0
+    ports:
+      - 0.0.0.0:4442:3000
