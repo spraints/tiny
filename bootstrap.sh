@@ -27,18 +27,23 @@ install_missing \
   gnupg2 \
   software-properties-common
 
-printf '===> Setting up docker apt source\n'
+printf '===> Setting up extra apt sources\n'
 curl -fsSL https://download.docker.com/linux/debian/gpg | \
+  apt-key add -
+
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
   apt-key add -
 
 cat <<EOF > /etc/apt/sources.list.d/tiny.list
 deb [arch=amd64] https://download.docker.com/linux/debian jessie stable
+deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 
 install_missing \
   avahi-daemon \
   libnss-mdns \
-  docker-ce
+  docker-ce \
+  kubectl
 
 if ! docker-compose --version | grep ^docker-compose >&/dev/null; then
   printf '===> Install docker-compose\n'
