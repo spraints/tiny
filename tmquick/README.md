@@ -1,0 +1,1 @@
+This is a quick hack to get a docker image set up to accept time machine backups. My plan is to use avahi and mdns on the host, and netatalk in a guest. Netatalk can be started by running `tmquick/start`.
