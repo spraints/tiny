@@ -9,7 +9,7 @@ image=tmquick
 container=tmquick
 volume=tmquick
 
-docker build -t $image .
+docker build --rm -t $image .
 
 set -x
 docker stop $container || true
