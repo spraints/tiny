@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+cd -P "$(dirname "$0")"
+
+image=tmquick
+container=tmquick
+volume=tmquick
+
+docker build -t $image .
+
+set -x
+docker stop $container || true
+docker volume inspect $volume >/dev/null || docker volume create $volume
+docker create --rm \
+  --name $container \
+  --volume $volume:/data \
+  $image
+docker start $container
