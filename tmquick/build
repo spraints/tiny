@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+cd -P "$(dirname "$0")"
+
+image=tmquick
+
+docker build --rm -t $image .
+docker run --rm $image | tar xf -
+ls -l *deb
