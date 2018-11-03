@@ -24,7 +24,12 @@ COPY --from=0 /src/netatalk_3.1.11-1_amd64.deb /
 RUN dpkg -i /libatalk18_3.1.11-1_amd64.deb
 RUN dpkg -i /netatalk_3.1.11-1_amd64.deb
 
-# copy config
-# create entry point
+RUN groupadd --gid 2000 timemachine
+RUN useradd --uid 2000 --gid 2000 --home-dir /data/timemachine timemachine
+# /data/timemachine gets created in the entrypoint, so that it can be set up on a mounted volume.
 
-RUN false
+COPY afp.conf /etc/netatalk/afp.conf
+
+COPY entrypoint.sh /entrypoint
+RUN chmod +x /entrypoint
+ENTRYPOINT ["/entrypoint"]
