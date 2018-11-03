@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if [ "$(id -u)" != "0" ]; then
+  exec sudo "$0" "$@"
+fi
+
+RUN() {
+  printf '===> %s\n' "$*"
+  "$@"
+}
+
+cd -P "$(dirname "$0")"
+
+RUN mkdir -p /data/timemachine
+RUN chown -R 2000:2000 /data/timemachine
+RUN groupadd --gid 2000 timemachine
+RUN useradd --uid 2000 --gid 2000 --home-dir /data/timemachine timemachine
+
+RUN dpkg -i libatalk18_3.1.11-1_amd64.deb netatalk_3.1.11-1_amd64.deb
+RUN apt-get install -fy
+
+RUN cp afp.conf /etc/netatalk/afp.conf
+RUN systemctl restart netatalk
+
+echo "TODO: Don't forget to run 'sudo passwd timemachine'"
+echo "TODO: Don't forget to run 'defaults write com.apple.systempreferences TMShowUnsupportedNetworkVolumes 1' on your mac"
