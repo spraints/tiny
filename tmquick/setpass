@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# alternatively, do something like https://github.com/cptactionhank/docker-netatalk/blob/master/docker-entrypoint.sh#L13
+
+echo Set password for timemachine user in the container.
+exec docker exec -it tmquick passwd timemachine
