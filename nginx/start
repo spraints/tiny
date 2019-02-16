@@ -3,24 +3,8 @@
 set -e
 set -o nounset
 
-###
-# Link the container here to the gnucash and pi-hole containers.
-# Change the pi-hole so it doesn't listen on port 80 on the host.
-# ...
-
 ROOT="$(cd "$(dirname "$0")"; pwd -P)"
 . ${ROOT}/.config
-
-#if [ ! -f ${CERTS_DIR}
-#mkdir -p ${CERTS_DIR}
-#
-#### GENERATE A CERTIFICATE
-#docker run -it --rm \
-#  ${CERTBOT_IMAGE} \
-#    certonly --non-interactive \
-#    --standalone -d practice.pickardayune.com
-
-#exit 1
 
 ### RUN NGINX
 docker rm -f ${CONTAINER} || true
@@ -29,8 +13,9 @@ docker rm -f ${CONTAINER} || true
 #  -d --restart=unless-stopped \
 exec docker run --name ${CONTAINER} -it --rm \
   --link gnucash-reports \
-  --link pihole \
   -p 8080:80 \
-  -v ${CERTS_DIR}:/etc/ssl-certs:ro \
+  -p 8443:443 \
+  -v ${CERTS_ROOT}/live/pickardayune.com:/etc/letsencrypt/live/pickardayune.com:ro \
+  -v ${CERTS_ROOT}/archive/pickardayune.com:/etc/letsencrypt/archive/pickardayune.com:ro \
   -v ${CONF_DIR}:/etc/nginx/conf.d:ro \
   ${IMAGE} 
