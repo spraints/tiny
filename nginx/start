@@ -18,4 +18,5 @@ exec docker run --name ${CONTAINER} -it --rm \
   -v ${CERTS_ROOT}/live/pickardayune.com:/etc/letsencrypt/live/pickardayune.com:ro \
   -v ${CERTS_ROOT}/archive/pickardayune.com:/etc/letsencrypt/archive/pickardayune.com:ro \
   -v ${CONF_DIR}:/etc/nginx/conf.d:ro \
+  -v ${AUTH_DIR}:/etc/nginx/auth:ro \
   ${IMAGE} 
