@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+ROOT="$(cd "$(dirname "$0")"; pwd -P)"
+. ${ROOT}/.config
+
+mkdir -p ${CERTS_ROOT}
+
+exec docker run -it --rm \
+  -v ${CERTS_ROOT}:/etc/letsencrypt \
+  ${CERTBOT_IMAGE} "$@"
