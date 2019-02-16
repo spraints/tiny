@@ -11,7 +11,8 @@ docker rm -f ${CONTAINER} || true
 
 #docker run --name ${CONTAINER} \
 #  -d --restart=unless-stopped \
-exec docker run --name ${CONTAINER} -it --rm \
+exec docker run -d --restart=unless-stopped \
+  --name ${CONTAINER} \
   --link gnucash-reports \
   -p 8080:80 \
   -p 8443:443 \
