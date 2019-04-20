@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo todo: create a user that will ssh to nethack.pickardayune.com and forward the port
+echo todo: create an ssh key for the user
+echo todo: configure a service that will run on boot to start up the ssh connection and keep it alive
+echo todo: cat the public key or copy it here
