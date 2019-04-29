@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+IMAGE=matsuu/nethack-server
+CONTAINER=nethack
+PORT=23
+
+VOL_VAR=${CONTAINER}-var:/opt/nethack/nethack.alt.org/nh343/var
+VOL_DLG=${CONTAINER}-dlg:/opt/nethack/nethack.alt.org/dgldir
+
+### CREATE VOLUMES (if needed)
+for vol in $VOL_VAR $VOL_DLG; do
+  volid=$(echo $vol | cut -d : -f 1)
+  if ! docker volume inspect $volid >&/dev/null; then
+    docker volume create $volid | sed -e 's/^/[create volume] /'
+  fi
+done
+
+### RUN NGINX
+docker rm -f ${CONTAINER} || true
+exec docker run -d --restart=unless-stopped \
+  --name ${CONTAINER} \
+  -p $PORT:23 \
+  -v $VOL_VAR \
+  -v $VOL_DLG \
+  ${IMAGE} 

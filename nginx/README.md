@@ -10,4 +10,4 @@ I generated a cert like this:
 
 Renewing should only require this:
 
-    ./certbot renew
+    ./certbot renew --dns-dnsimple
