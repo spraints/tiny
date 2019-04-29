@@ -8,6 +8,18 @@ ROOT="$(cd "$(dirname "$0")"; pwd -P)"
 
 mkdir -p ${CERTS_ROOT}
 
+build_image() {
+  tar c \
+    Dockerfile \
+    | docker build --rm -t $CERTBOT_IMAGE -
+}
+
+if ! build_image >&/dev/null; then
+  echo error building docker image
+  exit 1
+fi
+
 exec docker run -it --rm \
   -v ${CERTS_ROOT}:/etc/letsencrypt \
-  ${CERTBOT_IMAGE} "$@"
+  -v ${CONFIG_ROOT}:/etc/extraconfig:ro \
+  ${CERTBOT_IMAGE} "$@" --dns-dnsimple-credentials /etc/extraconfig/dnsimple.ini
