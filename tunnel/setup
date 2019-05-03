@@ -1,11 +1,16 @@
 #!/bin/bash
 
+set -e
+set -o nounset
+
 if [ $(id -u) -ne 0 ]; then
   echo error: must run with sudo
   exit 1
 fi
 
 root=$(cd $(dirname $0); pwd -P)
+
+apt-get install -y autossh || (apt-get update && apt-get install -y autossh)
 
 tunneluser=appstunnel
 echo "Create user '$tunneluser'"
@@ -14,8 +19,8 @@ chsh -s /bin/nologin $tunneluser
 mkdir -p /home/$tunneluser
 chown $tunneluser /home/$tunneluser
 
-echo "Generate ssh key"
 if [ ! -f /home/$tunneluser/.ssh/id_rsa ]; then
+  echo "Generate ssh key"
   sudo -u $tunneluser ssh-keygen -q -N "" -t rsa
 fi
 echo 'vvv   copy to apps'
