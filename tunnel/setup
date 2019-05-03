@@ -1,6 +1,26 @@
 #!/bin/bash
 
-echo todo: create a user that will ssh to nethack.pickardayune.com and forward the port
-echo todo: create an ssh key for the user
-echo todo: configure a service that will run on boot to start up the ssh connection and keep it alive
-echo todo: cat the public key or copy it here
+if [ $(id -u) -ne 0 ]; then
+  echo error: must run with sudo
+  exit 1
+fi
+
+root=$(cd $(dirname $0); pwd -P)
+
+tunneluser=appstunnel
+echo "Create user '$tunneluser'"
+useradd $tunneluser || true
+chsh -s /bin/nologin $tunneluser
+
+echo "Generate ssh key"
+if [ ! -f /home/$tunneluser/.ssh/id_rsa ]; then
+  sudo -u $tunneluser ssh-keygen -q -N "" -t rsa
+fi
+echo 'vvv   copy to apps'
+cat /home/$tunneluser/.ssh/id_rsa.pub
+echo '^^^   copy to apps'
+
+ln -sf $root/aztunnel.service /lib/systemd/system/aztunnel.service
+
+systemctl enable aztunnel
+systemctl start aztunnel
