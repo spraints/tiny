@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+exec docker exec -it git-daemon git init --bare /data/repositories/$1

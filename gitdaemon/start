@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+docker build --rm -t git-daemon .
+docker volume create git-daemon
+docker rm -f git-daemon
+exec docker run -d --restart=unless-stopped \
+  --name git-daemon \
+  -p 9418:9418 \
+  -v git-daemon:/data/repositories \
+  git-daemon
