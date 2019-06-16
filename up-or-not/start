@@ -3,6 +3,8 @@
 set -e
 set -o nounset
 
+git submodule update --init --recursive
+
 docker build --rm -t up-or-not src/upornot
 
 docker rm -f upornot || true
