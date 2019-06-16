@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+docker build --rm -t up-or-not src/upornot
+
+docker rm -f upornot || true
+
+exec docker run -d --restart=unless-stopped \
+  --name upornot \
+  -p 4444 \
+  upornot -target 8.8.8.8
