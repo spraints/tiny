@@ -9,7 +9,6 @@ docker rm -f upornot || true
 
 exec docker run -d --restart=unless-stopped \
   --name upornot \
-  -p 4444 \
   upornot \
     8.8.8.8 \
     192.168.164.1 \
