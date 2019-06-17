@@ -3,15 +3,18 @@
 set -e
 set -o nounset
 
+IMAGE=up-or-not
+CONTAINER=upornot
+
 git submodule update --init --recursive
 
-docker build --rm -t up-or-not src/upornot
+docker build --rm -t $IMAGE src/upornot
 
-docker rm -f upornot || true
+docker rm -f $CONTAINER >&/dev/null || true
 
 exec docker run -d --restart=unless-stopped \
-  --name upornot \
-  upornot \
+  --name $CONTAINER \
+  $IMAGE \
     8.8.8.8 \
     192.168.164.1 \
     192.168.10.1 \
