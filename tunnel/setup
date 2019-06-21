@@ -20,8 +20,10 @@ mkdir -p /home/$tunneluser
 chown $tunneluser /home/$tunneluser
 
 if [ ! -f /home/$tunneluser/.ssh/id_rsa ]; then
-  echo "Generate ssh key"
+  echo "Generate SSH key."
   sudo -u $tunneluser ssh-keygen -q -N "" -t rsa
+else
+  echo "SSH key already exists."
 fi
 echo 'vvv   copy to apps'
 cat /home/$tunneluser/.ssh/id_rsa.pub
