@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -ex
+
+docker build -t apt-cacher-ng --rm .
+docker rm -f apt-cacher-ng >&/dev/null || true
+docker run -d \
+  --restart=unless-stopped \
+  --name apt-cacher-ng \
+  -v apt-cacher-ng:/var/cache/apt-cacher-ng \
+  apt-cacher-ng
