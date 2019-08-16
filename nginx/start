@@ -19,6 +19,7 @@ exec docker run -d --restart=unless-stopped \
   -p 8443:443 \
   -p 80:80 \
   -p 443:443 \
+  -p 3142:3142 \
   -v ${CERTS_ROOT}/live/pickardayune.com:/etc/letsencrypt/live/pickardayune.com:ro \
   -v ${CERTS_ROOT}/archive/pickardayune.com:/etc/letsencrypt/archive/pickardayune.com:ro \
   -v ${CONF_DIR}:/etc/nginx/conf.d:ro \
