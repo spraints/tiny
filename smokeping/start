@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# https://hub.docker.com/r/linuxserver/smokeping
+# https://oss.oetiker.ch/smokeping/
+
+docker create \
+  --name=smokeping \
+  -e PUID=3000 \
+  -e PGID=3000 \
+  -e TZ=US/East-Indiana \
+  -p 80:80 \
+  -v ./config:/config \
+  -v smokeping-data:/data \
+  --restart unless-stopped \
+  linuxserver/smokeping
