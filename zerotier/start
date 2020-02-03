@@ -1,6 +1,9 @@
 #!/bin/bash
 
 set -e
+set -o nounset
+
+cd $(dirname $0)
 
 docker build --rm --force-rm -t tiny/zerotier .
 
@@ -11,5 +14,7 @@ exec docker run -d \
   --name zerotier \
   --cap-add NET_ADMIN \
   --cap-add SYS_ADMIN \
+  --device /dev/net/tun \
+  --net host \
   -v zerotier-data:/var/lib/zerotier-one \
   tiny/zerotier
