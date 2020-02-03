@@ -9,5 +9,7 @@ docker rm -f zerotier || true
 exec docker run -d \
   --restart=unless-stopped \
   --name zerotier \
+  --cap-add NET_ADMIN \
+  --cap-add SYS_ADMIN \
   -v zerotier-data:/var/lib/zerotier-one \
   tiny/zerotier

@@ -10,3 +10,5 @@ RUN apt-key add /tmp/zerotier.key
 RUN apt-get update && apt-get install -y zerotier-one
 
 VOLUME /var/lib/zerotier-one
+
+ENTRYPOINT ["/usr/sbin/zerotier-one"]
