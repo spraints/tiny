@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+docker build --rm --force-rm -t tiny/zerotier .
+
+docker rm -f zerotier || true
+
+exec docker run -d \
+  --restart=unless-stopped \
+  --name zerotier \
+  -v zerotier-data:/var/lib/zerotier-one \
+  tiny/zerotier
