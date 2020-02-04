@@ -36,19 +36,28 @@ main() {
         ztcurl -s "http://127.0.0.1:9993/controller/network/$2/member/$3" | jq .
       fi
       ;;
-#/ Usage: ./controller create NAME
+#/ Usage: ./controller create [--name NAME] [--net 10.10.10]
     create)
-      if [ "$#" -ne 2 ]; then
-        usage "$@"
-      else
-        args="$(printf '{"name": "%s", "private": true}' "$2")"
-        addr="$(./zerotier-cli info -j | jq -r .address)"
-        if [ -z "$addr" ]; then
-          echo "error: zerotier address not found"
-          exit 2
-        fi
-        ztcurl -s -d "${args}" "http://127.0.0.1:9993/controller/network/${addr}______" | jq .
-      fi
+      args='{"private": true'
+      shift
+      while [ $# -gt 0 ]; do
+        case "$1" in
+          --name)
+            args="$(printf '%s, "name": "%s"' "$args" "$2")"
+            shift; shift;;
+          --net)
+            args="$(printf '%s, "v4AssignMode": {"zt": true}' "$args")"
+            args="$(printf '%s, "ipAssignmentPools": [{"ipRangeStart": "%s.0", "ipRangeEnd": "%s.255"}]' "$args" "$2" "$2")"
+            args="$(printf '%s, "routes": [{"target": "%s.0/24"}]' "$args" "$2")"
+            shift; shift;;
+          *)
+            usage "$@" ;;
+        esac
+      done
+      args="$(printf '%s}' "$args")"
+      echo "$args" | jq . || ( echo "$args"; exit 1 )
+      addr="$(./zerotier-cli info -j | jq -r .address)"
+      ztcurl -s -d "${args}" "http://127.0.0.1:9993/controller/network/${addr}______" | jq .
       ;;
 #/ Usage: ./controller delete NETID
     delete)
