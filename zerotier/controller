@@ -1,0 +1,37 @@
+#!/bin/bash
+#/ Usage: ./controller list networks
+
+set -e
+
+main() {
+  case "$1" in
+    list)
+      case "$2" in
+        networks)
+          list_networks ;;
+        *)
+          usage "$@" ;;
+      esac ;;
+    *)
+      usage "$@" ;;
+  esac
+}
+
+usage() {
+  if [ $# -gt 0 ]; then
+    echo "Unrecognized command: $@"
+    cat "$0" | grep ^#/ | cut -c4-
+    exit 1
+  fi
+}
+
+list_networks() {
+  ztcurl -s http://127.0.0.1:9993/controller/network | jq .
+}
+
+ztcurl() {
+  curl -H "X-ZT1-Auth: $(docker exec zerotier cat /var/lib/zerotier-one/authtoken.secret)" \
+    "$@"
+}
+
+main "$@"
