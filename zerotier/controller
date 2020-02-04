@@ -1,19 +1,74 @@
 #!/bin/bash
-#/ Usage: ./controller list networks
 
 set -e
 
 main() {
   case "$1" in
+#/ Usage: ./controller info
+    info)
+      ztcurl -s http://127.0.0.1:9993/controller | jq .
+      ;;
+#/ Usage: ./controller list
     list)
-      case "$2" in
-        networks)
-          list_networks ;;
-        *)
-          usage "$@" ;;
-      esac ;;
+      ztcurl -s http://127.0.0.1:9993/controller/network | jq -r '.[]'
+      ;;
+#/ Usage: ./controller show NETID
+    show)
+      if [ "$#" -ne 2 ]; then
+        usage "$@"
+      else
+        ztcurl -s "http://127.0.0.1:9993/controller/network/$2" | jq .
+      fi
+      ;;
+#/ Usage: ./controller members NETID
+    members)
+      if [ "$#" -ne 2 ]; then
+        usage "$@"
+      else
+        ztcurl -s "http://127.0.0.1:9993/controller/network/$2/member" | jq .
+      fi
+      ;;
+#/ Usage: ./controller member NETID MEMBERID
+    member)
+      if [ "$#" -ne 3 ]; then
+        usage "$@"
+      else
+        ztcurl -s "http://127.0.0.1:9993/controller/network/$2/member/$3" | jq .
+      fi
+      ;;
+#/ Usage: ./controller create NAME
+    create)
+      if [ "$#" -ne 2 ]; then
+        usage "$@"
+      else
+        args="$(printf '{"name": "%s", "private": true}' "$2")"
+        addr="$(./zerotier-cli info -j | jq -r .address)"
+        if [ -z "$addr" ]; then
+          echo "error: zerotier address not found"
+          exit 2
+        fi
+        ztcurl -s -d "${args}" "http://127.0.0.1:9993/controller/network/${addr}______" | jq .
+      fi
+      ;;
+#/ Usage: ./controller delete NETID
+    delete)
+      if [ "$#" -ne 2 ]; then
+        usage "$@"
+      else
+        ztcurl -s -X DELETE "http://127.0.0.1:9993/controller/network/$2" | jq .
+      fi
+      ;;
+#/ Usage: ./controller authorize NETID MEMBERID
+    authorize)
+      if [ "$#" -ne 3 ]; then
+        usage "$@"
+      else
+        ztcurl -s -d '{"authorized": true}' "http://127.0.0.1:9993/controller/network/$2/member/$3" | jq .
+      fi
+      ;;
     *)
-      usage "$@" ;;
+      usage "$@"
+      ;;
   esac
 }
 
@@ -23,10 +78,6 @@ usage() {
     cat "$0" | grep ^#/ | cut -c4-
     exit 1
   fi
-}
-
-list_networks() {
-  ztcurl -s http://127.0.0.1:9993/controller/network | jq .
 }
 
 ztcurl() {
