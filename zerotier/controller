@@ -55,7 +55,7 @@ main() {
         esac
       done
       args="$(printf '%s}' "$args")"
-      echo "$args" | jq . || ( echo "$args"; exit 1 )
+      #echo "$args" | jq . || ( echo "$args"; exit 1 )
       addr="$(./zerotier-cli info -j | jq -r .address)"
       ztcurl -s -d "${args}" "http://127.0.0.1:9993/controller/network/${addr}______" | jq .
       ;;
