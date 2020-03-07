@@ -1,0 +1,19 @@
+#!/bin/bash
+#/ Usage: ./authorize-all NWID ZT-HOSTS-FILE
+
+set -e
+set -o nounset
+
+nwid="$1"
+zt_hosts_file="$2"
+
+addr=$(./zerotier-cli info -j | jq -r .address)
+
+echo Add self to network...
+./controller authorize $nwid $addr >/dev/null
+
+grep '^[0-9a-f]' network-private.txt | \
+  while read member rest; do
+    echo Add "$member" "$rest"
+    ./controller authorize $nwid $member | jq '{authorized,ipAssignments}'
+  done

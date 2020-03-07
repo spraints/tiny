@@ -20,6 +20,43 @@ main() {
         ztcurl -s "http://127.0.0.1:9993/controller/network/$2" | jq .
       fi
       ;;
+#/ Usage: ./controller describe NETID
+    describe)
+      if [ "$#" -ne 2 ]; then
+        usage "$@"
+      else
+        (
+          printf '{"network":'
+          ztcurl -s "http://127.0.0.1:9993/controller/network/$2"
+          printf ',"members": ['
+          sep=
+          for member in $(ztcurl -s "http://127.0.0.1:9993/controller/network/$2/member" | jq -r 'keys | .[]'); do
+            printf '%s' "$sep"
+            ztcurl -s "http://127.0.0.1:9993/controller/network/$2/member/$member"
+            sep=,
+          done
+          printf ']}'
+        ) | jq .
+      fi
+      ;;
+#/ Usage: ./controller ips NETID
+    ips)
+      if [ "$#" -ne 2 ]; then
+        usage "$@"
+      else
+        (
+          printf '{'
+          sep=
+          for member in $(ztcurl -s "http://127.0.0.1:9993/controller/network/$2/member" | jq -r 'keys | .[]'); do
+            printf '%s "%s":' "$sep" "$member"
+            ztcurl -s "http://127.0.0.1:9993/controller/network/$2/member/$member" | \
+              jq -r '.ipAssignments'
+            sep=,
+          done
+          printf '}'
+        ) | jq .
+      fi
+      ;;
 #/ Usage: ./controller members NETID
     members)
       if [ "$#" -ne 2 ]; then
