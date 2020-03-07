@@ -1,0 +1,39 @@
+#!/bin/bash
+#/ Usage: ./reset-networks --net 192.168.22
+
+net=
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --net)
+      net="$2"
+      shift; shift;;
+    *)
+      cat "$0" | grep ^#/ | cut -c4-
+      exit 1;;
+  esac
+done
+if [ -z "$net" ]; then
+  cat "$0" | grep ^#/ | cut -c4-
+  exit 1
+fi
+
+for nwid in $(./controller list); do
+  echo Deleting $nwid
+  ./controller delete $nwid >/dev/null
+done
+
+echo Creating a network...
+nwid=$(./controller create --net $net --name zt.pickardayune.com | jq -r .nwid)
+echo ... new network is $nwid
+
+addr=$(./zerotier-cli info -j | jq -r .address)
+
+# self (tiny)
+echo Add self to network...
+./controller authorize $nwid $addr >/dev/null
+
+grep '^[0-9a-f]' network-private.txt | \
+  while read member rest; do
+    echo Add "$member" "$rest"
+    ./controller authorize $nwid $member | jq '{authorized,ipAssignments}'
+  done
