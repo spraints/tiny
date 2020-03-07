@@ -75,6 +75,15 @@ main() {
         ztcurl -s -d '{"authorized": true}' "http://127.0.0.1:9993/controller/network/$2/member/$3" | jq .
       fi
       ;;
+#/ Usage: ./controller deauthorize NETID MEMBERID
+    deauthorize)
+      if [ "$#" -ne 3 ]; then
+        usage "$@"
+      else
+        ztcurl -s -d '{"authorized": false}' "http://127.0.0.1:9993/controller/network/$2/member/$3" | jq .
+        ztcurl -s -X DELETE "http://127.0.0.1:9993/controller/network/$2/member/$3" | jq .
+      fi
+      ;;
     *)
       usage "$@"
       ;;
