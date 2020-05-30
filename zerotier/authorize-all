@@ -4,6 +4,11 @@
 set -e
 set -o nounset
 
+if [ $# -ne 2 ]; then
+  cat $0 | grep '^#/' | cut -c4-
+  exit 1
+fi
+
 nwid="$1"
 zt_hosts_file="$2"
 
@@ -12,7 +17,7 @@ addr=$(./zerotier-cli info -j | jq -r .address)
 echo Add self to network...
 ./controller authorize $nwid $addr >/dev/null
 
-grep '^[0-9a-f]' network-private.txt | \
+grep '^[0-9a-f]' "$zt_hosts_file" | \
   while read member rest; do
     echo Add "$member" "$rest"
     ./controller authorize $nwid $member | jq '{authorized,ipAssignments}'
