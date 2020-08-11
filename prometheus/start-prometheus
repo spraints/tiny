@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+IMAGE="prom/prometheus:v2.20.1"
+CONTAINER=prometheus
+
+ROOT="$(cd "$(dirname "$0")"; pwd -P)"
+
+docker rm -f ${CONTAINER} || true
+
+exec docker run -d --restart=unless-stopped \
+  --name ${CONTAINER} \
+  -v ${ROOT}/prometheus/:/etc/prometheus/ \
+  -v prometheus_data:/prometheus \
+  ${IMAGE} \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --storage.tsdb.path=/prometheus \
+  --web.console.libraries=/usr/share/prometheus/console_libraries \
+  --web.console.templates=/usr/share/prometheus/consoles
+
