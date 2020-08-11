@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+IMAGE="prom/node-exporter:v1.0.1"
+CONTAINER=node-exporter
+
+ROOT="$(cd "$(dirname "$0")"; pwd -P)"
+
+docker rm -f ${CONTAINER} || true
+
+exec docker run -d --restart=unless-stopped \
+  --name ${CONTAINER} \
+  -v /proc:/host/proc:ro \
+  -v /sys:/host/sys:ro \
+  -v /:/rootfs:ro \
+  ${IMAGE} \
+  --path.procfs=/host/proc \
+  --path.sysfs=/host/sys \
+  --collector.filesystem.ignored-mount-points \
+  "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"

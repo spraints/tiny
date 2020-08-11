@@ -12,6 +12,7 @@ docker rm -f ${CONTAINER} || true
 
 exec docker run -d --restart=unless-stopped \
   --name ${CONTAINER} \
+  --link node-exporter \
   -v ${ROOT}/prometheus/:/etc/prometheus/ \
   -v prometheus_data:/prometheus \
   ${IMAGE} \
@@ -19,4 +20,3 @@ exec docker run -d --restart=unless-stopped \
   --storage.tsdb.path=/prometheus \
   --web.console.libraries=/usr/share/prometheus/console_libraries \
   --web.console.templates=/usr/share/prometheus/consoles
-
