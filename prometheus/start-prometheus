@@ -13,6 +13,7 @@ docker rm -f ${CONTAINER} || true
 exec docker run -d --restart=unless-stopped \
   --name ${CONTAINER} \
   --link node-exporter \
+  --link cadvisor \
   -v ${ROOT}/prometheus/:/etc/prometheus/ \
   -v prometheus_data:/prometheus \
   ${IMAGE} \
