@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+IMAGE="amplifi-exporter"
+CONTAINER=amplifi-exporter
+ENV_FILE=amplifi.env
+
+ROOT="$(cd "$(dirname "$0")"; pwd -P)"
+
+docker build --rm --force-rm -t "$IMAGE" amplifi-exporter
+
+if ! grep AMPLIFI_PASSWORD "$ENV_FILE" >&/dev/null; then
+  echo "Please create $ENV_FILE with AMPLIFI_PASSWORD."
+  exit 1
+fi
+
+docker rm -f ${CONTAINER} || true
+
+exec docker run -d --restart=unless-stopped \
+  --name ${CONTAINER} \
+  --env-file ${ENV_FILE} \
+  ${IMAGE}
