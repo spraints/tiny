@@ -21,4 +21,4 @@ docker rm -f ${CONTAINER} || true
 exec docker run -d --restart=unless-stopped \
   --name ${CONTAINER} \
   --env-file ${ENV_FILE} \
-  ${IMAGE}
+  ${IMAGE} --interval 5.0
