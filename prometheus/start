@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+cd "$(dirname "$0")"
+./start-cadvisor
+./start-node-exporter
+./start-amplifi-exporter
+./start-prometheus
+./start-grafana

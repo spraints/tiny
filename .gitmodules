@@ -1,3 +1,6 @@
 [submodule "up-or-not"]
 	path = up-or-not/src
 	url = https://github.com/spraints/up-or-not
+[submodule "prometheus/amplifi-exporter"]
+	path = prometheus/amplifi-exporter
+	url = https://github.com/spraints/amplifi-exporter
