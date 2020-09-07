@@ -28,5 +28,6 @@ exec docker run -d --restart=unless-stopped \
   -v /data/isos:/www/files/isos:ro \
   -v /data/music:/www/files/music:ro \
   -v /data/dslr-dumps:/www/files/dslr-dumps:ro \
+  -v /data/movies:/www/files/movies:ro \
   -v /home/spraints/691748491237ff041c10907a19a58434:/www/files/jank:ro \
   ${IMAGE} 
