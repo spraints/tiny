@@ -57,3 +57,12 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: ['amplifi-exporter:3030']
+
+#  todo - nginx on this host
+#  todo - nginx on meow via zerotier
+#  todo - cadvisor on meow via zerotier
+#  todo - node-exporter on meow via zerotier
+#  todo - solar panels?
+#  todo - temps?
+#  todo - logging for temps, sporalizer, etc on meow?
+#  todo - logging for apps on tiny?
