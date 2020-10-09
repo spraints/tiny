@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+IMAGE=gaetan/dockercraft
+NAME=dockercraft
+
+if [ "${1:-}" = "--pull" ]; then
+  docker pull "$IMAGE"
+fi
+if [ "$(basename "$0")" = "stop" ] || [ "${1:-}" = "stop" ]; then
+  echo Removing container...
+  docker rm -f "$NAME"
+  exit 0
+fi
+
+docker inspect "$NAME" >&/dev/null && exec docker start -ai "$NAME"
+
+exec docker run -it \
+  -p 25565:25565 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --name "$NAME" \
+  "$IMAGE" \
+  Forest 63 0 Trees
