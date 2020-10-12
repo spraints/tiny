@@ -25,6 +25,7 @@ exec docker run -d --restart=unless-stopped \
   -v ${CERTS_ROOT}/archive/pickardayune.com:/etc/letsencrypt/archive/pickardayune.com:ro \
   -v ${CONF_DIR}:/etc/nginx/conf.d:ro \
   -v ${AUTH_DIR}:/etc/nginx/auth:ro \
+  -v /data/farm:/www/files/farm:ro \
   -v /data/isos:/www/files/isos:ro \
   -v /data/music:/www/files/music:ro \
   -v /data/dslr-dumps:/www/files/dslr-dumps:ro \
