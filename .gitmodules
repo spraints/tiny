@@ -4,3 +4,6 @@
 [submodule "prometheus/amplifi-exporter"]
 	path = prometheus/amplifi-exporter
 	url = https://github.com/spraints/amplifi-exporter
+[submodule "mytagdata/src"]
+	path = mytagdata/src
+	url = https://github.com/spraints/mytagdata

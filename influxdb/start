@@ -1,0 +1,14 @@
+#!/bin/bash
+
+IMAGE=influxdb:2.0.4-alpine
+CONTAINER=influxdb
+
+docker rm -f $CONTAINER >&/dev/null || true
+
+echo Starting influxdb. If this is the first time, visit http://tiny.local:8061/ and configure it.
+
+exec docker run -d --restart=unless-stopped \
+  --name $CONTAINER \
+  -p 8061:8061 \
+  -v influxdb-data:/var/lib/influxdb2 \
+  $IMAGE

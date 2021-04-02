@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+set -o nounset
+
+IMAGE=mytagdata
+CONTAINER=mytagdata
+
+cd "$(dirname "$0")"
+
+if [ ! -f config.json ]; then
+  echo error: first you must start influxdb, configure it, and set up config.json with a token.
+  exit 1
+fi
+
+git submodule update --init --recursive
+
+docker build --rm -t $IMAGE src
+
+docker rm -f $CONTAINER >&/dev/null || true
+
+exec docker run -d --restart=unless-stopped \
+  --name $CONTAINER \
+  --link influxdb \
+  -p 8900:8900 \
+  -v "$(pwd -P)/config.json:/etc/mytagdata-influx.json" \
+  $IMAGE \
+    -influx /etc/mytagdata-influx.json
