@@ -1,4 +1,6 @@
-# Zerotier
+# [Zerotier](https://www.zerotier.com)
+
+I use zerotier as a VPN, so that I can ssh back to my home network when I'm away. This directory has some helpers for managing my ZT nodes.
 
 ## Getting everything started
 

@@ -42,8 +42,7 @@ EOF
 install_missing \
   avahi-daemon \
   libnss-mdns \
-  docker-ce \
-  kubectl
+  docker-ce
 
 if ! docker-compose --version | grep ^docker-compose >&/dev/null; then
   printf '===> Install docker-compose\n'
@@ -55,21 +54,6 @@ if ! docker-compose --version | grep ^docker-compose >&/dev/null; then
     mv /tmp/docker-compose /usr/local/bin/
   else
     echo Error downloading docker-compose
-    exit 1
-  fi
-fi
-
-if [ "$(minikube version 2>/dev/null)" != "minikube version: v0.30.0" ]; then
-  printf '===> Install minikube\n'
-  minikube_url="https://github.com/kubernetes/minikube/releases/download/v0.30.0/minikube-linux-amd64"
-  minikube_sha256sum="f6fcd916adbdabc84fceb4ff3cadd58586f0ef6e576233b1bd03ead1f8f04afa"
-  rm -f /tmp/minikube
-  curl -L "$minikube_url" -o /tmp/minikube
-  if printf '%s %s\n' "$minikube_sha256sum" "/tmp/minikube" | sha256sum -c - >/dev/null; then
-    chmod +x /tmp/minikube
-    mv /tmp/minikube /usr/local/bin
-  else
-    echo Error downloading minikube
     exit 1
   fi
 fi
