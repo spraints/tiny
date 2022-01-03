@@ -1,0 +1,22 @@
+#!/bin/bash
+#/ Usage: ./run [--pull]
+
+set -e
+set -o nounset
+
+NAME=homeassistant
+IMAGE=ghcr.io/home-assistant/home-assistant:stable
+ROOT="$(cd "$(dirname "$0")"; pwd -P)"
+
+if [ "${1:-}" = "--pull" ]; then
+  docker pull "${IMAGE}"
+fi
+
+docker run -d \
+  --name "${NAME}" \
+  --privileged \
+  --restart=unless-stopped \
+  -e TZ=America/Indianapolis \
+  -v "${ROOT}/config:/config" \
+  --network=host \
+  "${IMAGE}"
