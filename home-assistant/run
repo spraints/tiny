@@ -12,6 +12,8 @@ if [ "${1:-}" = "--pull" ]; then
   docker pull "${IMAGE}"
 fi
 
+docker stop "${NAME}" || true
+
 docker run -d \
   --name "${NAME}" \
   --privileged \
