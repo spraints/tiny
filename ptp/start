@@ -1,0 +1,22 @@
+#!/bin/bash
+#/ Usage: ./start [--pull]
+# Runs https://github.com/Ocawesome101/pieces-to-practice
+
+set -e
+
+IMAGE=ghcr.io/ocawesome101/pieces-to-practice:primary
+CONTAINER=ptp
+
+if [ "$1" == "--pull" ]; then
+  docker pull "${IMAGE}"
+fi
+
+echo stopping the old container...
+docker rm -f "${CONTAINER}" || true
+
+echo starting the new container...
+docker run \
+  --name "${CONTAINER}" \
+  -v /data/oliver/ptp:/root/.piecestopractice \
+  -d --restart=unless-stopped \
+  "${IMAGE}"
