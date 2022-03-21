@@ -21,5 +21,4 @@ docker run \
   -u "$(id -u oliver):$(id -g oliver)" \
   -v /data/oliver/ptp:/root/.piecestopractice \
   --env TZ=America/Indianapolis \
-  --entrypoint /usr/bin/env \
-  "${IMAGE}" lua ws.lua 8888
+  "${IMAGE}" 8888
