@@ -19,7 +19,8 @@ docker run \
   --name "${CONTAINER}" \
   -d --restart=unless-stopped \
   -u "$(id -u oliver):$(id -g oliver)" \
-  -v /data/oliver/ptp:/root/.piecestopractice \
+  -v /data/oliver/ptp:/my-stuff/.piecestopractice \
   --env TZ=America/Indianapolis \
+  --env HOME=/my-stuff \
   --entrypoint /usr/bin/env \
   "${IMAGE}" lua ws.lua 8888
