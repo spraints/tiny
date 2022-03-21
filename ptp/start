@@ -17,6 +17,9 @@ docker rm -f "${CONTAINER}" || true
 echo starting the new container...
 docker run \
   --name "${CONTAINER}" \
-  -v /data/oliver/ptp:/root/.piecestopractice \
   -d --restart=unless-stopped \
-  "${IMAGE}"
+  -u "$(id -u oliver):$(id -g oliver)" \
+  -v /data/oliver/ptp:/root/.piecestopractice \
+  --env TZ=America/Indianapolis \
+  --entrypoint /usr/bin/env \
+  "${IMAGE}" lua ws.lua 8888
