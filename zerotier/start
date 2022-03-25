@@ -5,8 +5,6 @@ set -o nounset
 
 cd $(dirname $0)
 
-docker build --rm --force-rm -t tiny/zerotier .
-
 docker rm -f zerotier >&/dev/null || true
 
 exec docker run -d \
@@ -17,4 +15,4 @@ exec docker run -d \
   --device /dev/net/tun \
   --net host \
   -v zerotier-data:/var/lib/zerotier-one \
-  tiny/zerotier
+  zerotier/zerotier:1.8.6
