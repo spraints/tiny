@@ -11,12 +11,13 @@ docker rm -f ${CONTAINER} || true
 
 exec docker run -d --restart=unless-stopped \
   --name ${CONTAINER} \
-  --link gnucash-reports \
-  --link upornot \
   --link apt-cacher-ng \
-  --link pihole \
+  --link gnucash-reports \
   --link grafana \
+  --link pihole \
   --link ptp \
+  --link starlink \
+  --link upornot \
   -p 8080:80 \
   -p 8443:443 \
   -p 80:80 \
