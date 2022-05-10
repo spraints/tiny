@@ -5,13 +5,16 @@ set -o nounset
 
 ROOT="$(cd "$(dirname "$0")"; pwd -P)"
 SUBMODULE=BetterThanNothingWebInterface
-IMAGE=BetterThanNothingWebInterface
+IMAGE=starlink-better-than-nothing-web-interface
 CONTAINER=starlink
 
 cd "${ROOT}"
 git submodule update --init ${SUBMODULE}
 cd ${SUBMODULE}
-docker build --rm --force-rm -t ${IMAGE} .
+docker build --rm --force-rm \
+  --network=host \
+  -t ${IMAGE} \
+  .
 
 docker rm -f ${CONTAINER} || true
 
