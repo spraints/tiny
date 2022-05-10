@@ -7,3 +7,6 @@
 [submodule "mytagdata/src"]
 	path = mytagdata/src
 	url = https://github.com/spraints/mytagdata
+[submodule "starlink/BetterThanNothingWebInterface"]
+	path = starlink/BetterThanNothingWebInterface
+	url = https://github.com/spraints/BetterThanNothingWebInterface
