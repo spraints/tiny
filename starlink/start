@@ -1,0 +1,8 @@
+#!/bin/bash
+
+CONTAINER=starlink-exporter
+EXPORTER_IMAGE=ghcr.io/danopstech/starlink_exporter:v0.0.5
+
+exec docker run -d --restart=unless-stopped \
+  --name ${CONTAINER} \
+  ${IMAGE}
