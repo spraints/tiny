@@ -35,7 +35,7 @@
       "title": "Starlink Statistics",
       "tooltip": "",
       "type": "link",
-      "url": "http://192.168.100.1/support/statistics"
+      "url": "http://dishy.starlink.com"
     }
   ],
   "panels": [
