@@ -1,0 +1,67 @@
+#!/bin/bash
+#/ Usage ./ensure-all-running
+#/ checks that all of tiny's docker services are running.
+
+main() {
+  check gnucash-reports \
+    ../gnucash_reports script/docker-server --pull
+  check pihole \
+    ../docker-pi-hole ./start.sh
+
+  check amplifi-exporter \
+    prometheus ./start-amplifi-exporter
+  check apt-cacher-ng \
+    apt-cacher-ng ./start
+  check cadvisor \
+    prometheus ./start-cadvisor
+  check homeassistant \
+    home-assistant ./run
+  check influxdb \
+    influxdb ./start
+  check nethack \
+    nethack ./start
+  check node-exporter \
+    prometheus ./start-node-exporter
+  check ptp \
+    ptp ./start
+  check starlink-exporter \
+    starlink ./start
+  check upornot \
+    up-or-not ./start
+  check zerotier \
+    zerotier ./start
+
+  # needs influxdb
+  check mytagdata \
+    mytagdata ./start
+
+  # needs node-exporter, cadvisor, amplifi-exporter, starlink-exporter
+  check prometheus \
+    prometheus ./start-prometheus
+
+  # needs prometheus
+  check grafana \
+    prometheus ./start-grafana
+
+  # needs apt-cacher-ng, gnucash-reports, grafana, pihole, ptp, upornot
+  check defaultwebserver \
+    nginx ./start
+}
+
+# Usage: check CONTAINER DIR START_COMMAND...
+check() {
+  local container="$1"; shift
+  local dir="$1"; shift
+
+  local status="$(docker inspect --format '{{.State.Status}}' "$container" 2>/dev/null)"
+  echo "** $container $status"
+  if [ "$status" != "running" ]; then
+    docker logs --tail 3 "$container" 2>/dev/null
+    echo starting...
+    (cd "$dir" && "$@")
+  else
+    (cd "$dir" 2>/dev/null && test -e "$1") || echo " warning: would not be able to start '$container' in '$dir' with '$@'"
+  fi
+}
+
+main
