@@ -3,6 +3,8 @@
 #/ checks that all of tiny's docker services are running.
 
 main() {
+  cd "$(dirname "$0")"
+
   check gnucash-reports \
     ../gnucash_reports script/docker-server --pull
   check pihole \
