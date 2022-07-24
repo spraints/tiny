@@ -5,6 +5,8 @@
 main() {
   cd "$(dirname "$0")"
 
+  STATUS=$(docker ps -a --format '{{.Names}} {{.Status}}')
+
   check gnucash-reports \
     ../gnucash_reports script/docker-server --pull
   check pihole \
@@ -55,11 +57,14 @@ check() {
   local container="$1"; shift
   local dir="$1"; shift
 
-  local status="$(docker inspect --format '{{.State.Status}}' "$container" 2>/dev/null)"
+  local status="$(echo "$STATUS" | grep "^$container" | awk '{print $2}')"
   echo "** $container $status"
-  if [ "$status" != "running" ]; then
+  if [ "$status" != "Up" ]; then
+    echo "$STATUS" | grep "^$container"
+    echo "--------"
     docker logs --tail 3 "$container" 2>/dev/null
-    echo starting...
+    echo "--------"
+    echo starting $container...
     (cd "$dir" && "$@")
   else
     (cd "$dir" 2>/dev/null && test -e "$1") || echo " warning: would not be able to start '$container' in '$dir' with '$@'"
