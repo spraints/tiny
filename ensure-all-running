@@ -57,11 +57,9 @@ check() {
   local container="$1"; shift
   local dir="$1"; shift
 
-  local status="$(echo "$STATUS" | grep "^$container" | awk '{print $2}')"
-  echo "** $container $status"
-  if [ "$status" != "Up" ]; then
-    echo "$STATUS" | grep "^$container"
-    echo "--------"
+  local status_line="$(echo "$STATUS" | grep "^$container")"
+  echo "** $status_line"
+  if [ "$(echo "$status_line" | awk '{print $2}')" != "Up" ]; then
     docker logs --tail 3 "$container" 2>/dev/null
     echo "--------"
     echo starting $container...
