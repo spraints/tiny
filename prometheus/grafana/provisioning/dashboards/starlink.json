@@ -16,8 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 1,
-  "id": 4,
-  "iteration": 1621423064407,
+  "iteration": 1674662206363,
   "links": [
     {
       "icon": "info",
@@ -127,7 +126,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -185,7 +184,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -244,7 +243,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -302,7 +301,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -360,7 +359,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -423,7 +422,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -504,7 +503,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -588,7 +587,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -678,7 +677,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -826,7 +825,7 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -891,7 +890,7 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "targets": [
         {
           "exemplar": true,
@@ -1107,7 +1106,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1217,7 +1216,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1264,7 +1263,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": "10m",
+      "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
       "title": "Slot Timers",
@@ -1346,7 +1345,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1394,7 +1393,7 @@
         }
       ],
       "thresholds": [],
-      "timeFrom": "10m",
+      "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
       "title": "SNR and Pop Ping Drop Percentage",
@@ -1475,7 +1474,7 @@
         "alertThreshold": false
       },
       "percentage": false,
-      "pluginVersion": "7.5.5",
+      "pluginVersion": "7.5.6",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1552,8 +1551,8 @@
         "allValue": "*",
         "current": {
           "selected": false,
-          "text": "starlink_exporter:9817",
-          "value": "starlink_exporter:9817"
+          "text": "starlink-exporter:9817",
+          "value": "starlink-exporter:9817"
         },
         "datasource": "Prometheus",
         "definition": "label_values(starlink_dish_up, instance)",
@@ -1582,7 +1581,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
