@@ -43,9 +43,12 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets:
-        - 'cadvisor:8080'
-        - 'cadvisor-meow.zt.pickardayune.com'
+      - targets: ['cadvisor:8080']
+
+  - job_name: 'meow-cadvisor'
+
+    static_configs:
+      - targets: ['cadvisor-meow.zt.pickardayune.com']
 
   - job_name: 'node-exporter'
 
