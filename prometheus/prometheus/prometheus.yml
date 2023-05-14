@@ -45,7 +45,7 @@ scrape_configs:
     static_configs:
       - targets:
         - 'cadvisor:8080'
-        - 'cadvisor-meow.zt.pickardayune.com:8080'
+        - 'cadvisor-meow.zt.pickardayune.com'
 
   - job_name: 'node-exporter'
 
