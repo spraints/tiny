@@ -45,6 +45,11 @@ scrape_configs:
     static_configs:
       - targets: ['cadvisor:8080']
 
+  - job_name: 'meow-cadvisor'
+
+    static_configs:
+      - targets: ['cadvisor-meow.zt.pickardayune.com']
+
   - job_name: 'node-exporter'
 
     # Override the global default and scrape targets from this job every 5 seconds.
@@ -66,7 +71,6 @@ scrape_configs:
 
 #  todo - nginx on this host
 #  todo - nginx on meow via zerotier
-#  todo - cadvisor on meow via zerotier
 #  todo - node-exporter on meow via zerotier
 #  todo - solar panels?
 #  todo - temps?
