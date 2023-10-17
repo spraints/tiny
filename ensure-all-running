@@ -10,7 +10,7 @@ main() {
   check gnucash-reports \
     ../gnucash_reports script/docker-server --pull
   check pihole \
-    ../docker-pi-hole ./docker_run.sh
+    ../my-docker-pi-hole docker-compose up -d
 
   check amplifi-exporter \
     prometheus ./start-amplifi-exporter
