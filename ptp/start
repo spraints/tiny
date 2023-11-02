@@ -1,10 +1,10 @@
 #!/bin/bash
 #/ Usage: ./start [--pull]
-# Runs https://github.com/Ocawesome101/pieces-to-practice
+# Runs https://github.com/Ocawesome101/practice-app-2
 
 set -e
 
-IMAGE=ghcr.io/ocawesome101/pieces-to-practice:primary
+IMAGE=ghcr.io/ocawesome101/practice-app-2:foremost
 CONTAINER=ptp
 
 if [ "$1" == "--pull" ]; then
@@ -19,7 +19,6 @@ docker run \
   --name "${CONTAINER}" \
   -d --restart=unless-stopped \
   -u "$(id -u oliver):$(id -g oliver)" \
-  -v /data/oliver/ptp:/my-stuff/.piecestopractice \
+  -v /data/oliver/ptp2:/app/db \
   --env TZ=America/Indianapolis \
-  --env HOME=/my-stuff \
-  "${IMAGE}" 8888
+  "${IMAGE}"
