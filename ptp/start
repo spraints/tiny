@@ -18,7 +18,6 @@ echo starting the new container...
 docker run \
   --name "${CONTAINER}" \
   -d --restart=unless-stopped \
-  -u "$(id -u oliver):$(id -g oliver)" \
   -v /data/oliver/ptp2:/app/db \
   --env TZ=America/Indianapolis \
   "${IMAGE}"
