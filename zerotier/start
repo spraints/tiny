@@ -15,4 +15,4 @@ exec docker run -d \
   --device /dev/net/tun \
   --net host \
   -v zerotier-data:/var/lib/zerotier-one \
-  zerotier/zerotier:1.8.6
+  zerotier/zerotier:1.12.2
