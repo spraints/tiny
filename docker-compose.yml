@@ -1,0 +1,30 @@
+services:
+  apt-cacher-ng:
+    build: apt-cacher-ng
+    volumes:
+      - apt-cacher-ng:/var/cache/apt-cacher-ng
+
+  # apt-cacher-ng/start
+  # starlink/start
+  # mytagdata/start
+  # docker-bench-security.sh
+  # ptp/start
+  # dockercraft/start
+  # influxdb/start
+  # nethack/start
+  # nginx/start
+  # nginx/certbot
+  # home-assistant/run
+  # prometheus/start-prometheus
+  # prometheus/start-grafana
+  # prometheus/start-cadvisor
+  # prometheus/start-node-exporter
+  # prometheus/start-amplifi-exporter
+  # zerotier/start
+  # tmquick/build
+  # up-or-not/start
+  # up-or-not/src/README.md
+  # up-or-not/src/script/run
+
+volumes:
+  apt-cacher-ng:
